@@ -13,15 +13,21 @@ soup = BeautifulSoup(r.content, 'lxml')
 links = soup.find_all('a')
 i = 0
 for link in links:
-	if i == 18:
-		print(link)
-		print(link.get('href'))
+	if i >= 10 and i < 20:
+		print(link.text)
 		url = "https://commons.wikimedia.org/%s"%(link.get('href'))
 		r = requests.get(url)
 		soup = BeautifulSoup(r.content, 'lxml')
 		# print(url)
-		location = soup.findAll('th')
-		# print(location)
-		print(location[1].findNext('td'))
+		info = soup.findAll('th')
+		for category in info:
+			if category.text == "Location":
+				locations = category.findNext('td')
+				for location in locations.findAll('a'):
+					print(location.text)
+				# next = (category.findNext('a').text)
+
+		# print(location[1].findNext('td'))
 		# print(location[1].findAll('a'))
+		print("\n\n")
 	i += 1
